@@ -800,7 +800,7 @@ input:checked + .toggle-slider:before {
 
     <div class="status-bar">
         <div class="coords">
-            <span>LAT: 37.7749° N</span> | <span>LONG: 122.4194° W</span> | <span>ALT: 52 m</span>
+            <span>LAT: 13.6320 N</span> | <span>LONG:  79.5050 W</span> | <span>ALT: 350 m</span>
         </div>
         <div class="compass">
             <span>Heading: <strong>NE (45°)</strong></span>
@@ -813,79 +813,90 @@ input:checked + .toggle-slider:before {
 
     <script>
         // Initialize map
-        const map = L.map('map', {
-            center: [37.7749, -122.4194],
-            zoom: 13,
-            zoomControl: false
-        });
+        // Initialize map centered on IIT Tirupati
+const map = L.map('map', {
+    center: [13.6320, 79.5050],
+    zoom: 15,
+    zoomControl: false
+});
 
-        // Add a dark-themed tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
+// Add a dark-themed tile layer
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+}).addTo(map);
 
-        // Add markers for the locations
-        // Current position marker
-        L.marker([37.7749, -122.4194], {
-            icon: L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="background-color: #4caf50; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
-                iconSize: [22, 22],
-                iconAnchor: [11, 11]
-            })
-        }).addTo(map);
+// Add markers for drone locations around IIT Tirupati
+// Main campus marker (current position)
+L.marker([13.6320, 79.5050], {
+    icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: #4caf50; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+    })
+}).addTo(map);
 
-        // Base station marker
-        L.marker([37.7649, -122.4344], {
-            icon: L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="background-color: #2196f3; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
-                iconSize: [22, 22],
-                iconAnchor: [11, 11]
-            })
-        }).addTo(map);
+// Drone at Academic Building
+L.marker([13.6330, 79.5070], {
+    icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: #2196f3; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+    })
+}).addTo(map);
 
-        // Checkpoint alpha marker
-        L.marker([37.7849, -122.4044], {
-            icon: L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="background-color: #ff9800; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
-                iconSize: [22, 22],
-                iconAnchor: [11, 11]
-            })
-        }).addTo(map);
+// Drone at Hostel Area
+L.marker([13.6300, 79.5030], {
+    icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: #ff9800; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+    })
+}).addTo(map);
 
-        // Add a route line
-        const routeCoordinates = [
-            [37.7749, -122.4194], // Current position
-            [37.7729, -122.4144],
-            [37.7699, -122.4174],
-            [37.7679, -122.4254],
-            [37.7649, -122.4344]  // Base station
-        ];
-        
-        L.polyline(routeCoordinates, {
-            color: '#4caf50',
-            weight: 5,
-            opacity: 0.7,
-            dashArray: '10, 10'
-        }).addTo(map);
+// Drone at Research Park (example)
+L.marker([13.6350, 79.5080], {
+    icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: #e91e63; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white;"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+    })
+}).addTo(map);
 
-        // Handle right-click for context menu
-        map.on('contextmenu', function(e) {
-            const contextMenu = document.getElementById('contextMenu');
-            contextMenu.style.display = 'block';
-            contextMenu.style.left = e.originalEvent.pageX + 'px';
-            contextMenu.style.top = e.originalEvent.pageY + 'px';
-            
-            // Close menu when clicking elsewhere
-            window.addEventListener('click', function closeMenu() {
-                contextMenu.style.display = 'none';
-                window.removeEventListener('click', closeMenu);
-            });
-        });
+// Add a drone flight path/route
+const routeCoordinates = [
+    [13.6320, 79.5050], // Main campus
+    [13.6330, 79.5060], // Waypoint 1
+    [13.6340, 79.5065], // Waypoint 2
+    [13.6335, 79.5075], // Waypoint 3
+    [13.6330, 79.5070]  // Academic Building
+];
+
+L.polyline(routeCoordinates, {
+    color: '#4caf50',
+    weight: 5,
+    opacity: 0.7,
+    dashArray: '10, 10'
+}).addTo(map);
+
+// Handle right-click for context menu
+map.on('contextmenu', function(e) {
+    const contextMenu = document.getElementById('contextMenu');
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = e.originalEvent.pageX + 'px';
+    contextMenu.style.top = e.originalEvent.pageY + 'px';
+    
+    // Close menu when clicking elsewhere
+    window.addEventListener('click', function closeMenu() {
+        contextMenu.style.display = 'none';
+        window.removeEventListener('click', closeMenu);
+    });
+});
     </script>
 </body>
 </html>
